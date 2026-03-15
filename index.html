@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Chez BAhA • IMAGES PERSONNALISÉES • Angré 8e</title>
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #0a0f1e;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 10px;
+            padding-bottom: 100px;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #8B4513, #B87333);
+            border-radius: 30px;
+            padding: clamp(15px, 5vw, 30px);
+            margin: 10px;
+            border: 2px solid gold;
+            box-shadow: 0 0 30px gold;
+        }
+
+        .header-title {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #FFF, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* COMPTEUR */
+        .countdown {
+            background: rgba(0,0,0,0.7);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            border: 2px solid gold;
+        }
+
+        .time {
+            font-family: monospace;
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            color: #FF4500;
+            text-shadow: 0 0 20px red;
+        }
+
+        /* GRILLE MENU */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 15px;
+        }
+
+        /* CARTE PRODUIT */
+        .product-card {
+            position: relative;
+            border-radius: 30px;
+            padding: 0;
+            overflow: hidden;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            border: 2px solid gold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background: #1e2a3a;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        /* IMAGE SPÉCIFIQUE PAR PRODUIT */
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid gold;
+        }
+
+        /* CONTENU TEXTE */
+        .product-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(145deg, #1e2a3a, #0f1a24);
+            flex: 1;
+        }
+
+        .product-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 10px gold);
+        }
+
+        .product-name {
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            font-weight: 800;
+            color: gold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            font-weight: 900;
+            color: gold;
+            margin-bottom: 10px;
+        }
+
+        /* CONTRÔLES QUANTITÉ */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 10px 0;
+            width: 100%;
+            background: rgba(0,0,0,0.7);
+            padding: 8px;
+            border-radius: 50px;
+            border: 1px solid gold;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: gold;
+            color: black;
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #b8860b;
+            transition: all 0.1s;
+        }
+
+        .qty-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #b8860b;
+        }
+
+        .qty-display {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: gold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* BOUTON AJOUTER */
+        .add-btn {
+            background: linear-gradient(145deg, #4CAF50, #2E7D32);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #1B5E20;
+            transition: all 0.1s;
+            margin-top: 5px;
+        }
+
+        .add-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #1B5E20;
+        }
+
+        /* PANIER */
+        .cart-panel {
+            background: rgba(0,10,20,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            padding: clamp(15px, 4vw, 25px);
+            margin: 15px;
+            border: 2px solid gold;
+            box-shadow: 0 0 40px gold;
+        }
+
+        .cart-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cart-total {
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            font-weight: 900;
+            color: gold;
+        }
+
+        .cart-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,215,0,0.1);
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 30px;
+            border-left: 5px solid gold;
+            gap: 10px;
+        }
+
+        .remove-btn {
+            background: #ff4444;
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #aa0000;
+            transition: all 0.1s;
+        }
+
+        .remove-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #aa0000;
+        }
+
+        /* FORMULAIRE */
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 2px solid gold;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            font-size: 1rem;
+            margin: 8px 0;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: orange;
+            box-shadow: 0 0 20px gold;
+        }
+
+        /* GPS */
+        .gps-section {
+            background: rgba(0,255,255,0.1);
+            border: 2px solid cyan;
+            border-radius: 40px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .gps-coords {
+            font-family: monospace;
+            word-break: break-all;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 30px;
+            margin: 10px 0;
+        }
+
+        /* BOUTONS ACTION */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .action-btn {
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            background: linear-gradient(145deg, gold, orange);
+            box-shadow: 0 4px 0 #b8860b;
+            transition: all 0.1s;
+        }
+
+        .action-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #b8860b;
+        }
+
+        /* WHATSAPP FIXE */
+        .whatsapp-fixed {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(145deg, #25D366, #128C7E);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            box-shadow: 0 4px 0 #075e54, 0 0 30px #25D366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            border: 1px solid gold;
+        }
+
+        .whatsapp-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #075e54, 0 0 30px #25D366;
+        }
+
+        /* SUIVI */
+        .tracking-section {
+            background: linear-gradient(135deg, #001824, #002b44);
+            border-radius: 40px;
+            padding: 20px;
+            margin: 15px;
+            border: 3px solid cyan;
+            display: none;
+        }
+
+        .map-container {
+            height: 250px;
+            background: #0a1f2f;
+            border-radius: 30px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid cyan;
+        }
+
+        .rider-marker {
+            position: absolute;
+            font-size: 3rem;
+            filter: drop-shadow(0 0 20px cyan);
+            transition: all 0.3s;
+        }
+
+        .client-marker {
+            position: absolute;
+            font-size: 3rem;
+            filter: drop-shadow(0 0 20px gold);
+        }
+
+        /* NOTIFICATION */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            z-index: 2000;
+            box-shadow: 0 0 30px #4CAF50;
+            border: 2px solid gold;
+            text-align: center;
+        }
+
+        /* BADGES */
+        .badge {
+            background: rgba(0,0,0,0.6);
+            padding: 5px 15px;
+            border-radius: 30px;
+            border: 1px solid gold;
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1 class="header-title">CHEZ BAHA</h1>
+            <p style="font-size: 1.2rem;">📍 Angré 8e Tranche</p>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0;">
+                <span class="badge">🏆 3 livreurs</span>
+                <span class="badge">⏱️ 15-25 min</span>
+                <span class="badge">🌟 5.0 ⭐</span>
+            </div>
+
+            <div class="countdown">
+                <span>⏳ Fermeture</span>
+                <span class="time" id="countdown">23:50:00</span>
+            </div>
+        </div>
+
+        <!-- MENU -->
+        <h2 style="font-size: 2rem; margin: 20px 15px; color: gold;">🍽️ NOTRE MENU</h2>
+        
+        <div class="menu-grid" id="menuGrid"></div>
+
+        <!-- PANIER -->
+        <div class="cart-panel">
+            <div class="cart-header">
+                <h2 style="font-size: 1.8rem;">🛒 PANIER</h2>
+                <span class="cart-total" id="totalDisplay">0 FCFA</span>
+            </div>
+            
+            <div id="cartCount" style="color: gold; margin-bottom: 10px;">0 article(s)</div>
+            <div id="cartItems" style="max-height: 300px; overflow-y: auto;"></div>
+
+            <!-- FORMULAIRE -->
+            <form id="orderForm">
+                <input type="text" class="input-field" id="fullName" placeholder="👤 Nom complet" required>
+                <input type="tel" class="input-field" id="phone" placeholder="📞 Téléphone" required>
+                <textarea class="input-field" id="address" rows="2" placeholder="📍 Adresse" required></textarea>
+
+                <!-- GPS -->
+                <div class="gps-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 1.2rem;">🛰️ GPS</span>
+                        <span id="gpsStatus" style="background: cyan; color: black; padding: 5px 15px; border-radius: 30px;">ACTIF</span>
+                    </div>
+                    <div class="gps-coords" id="gpsCoords">Initialisation...</div>
+                    <div id="gpsAccuracy" style="color: cyan;"></div>
+                </div>
+
+                <!-- BOUTONS -->
+                <div class="actions-grid">
+                    <button type="button" class="action-btn" id="refreshGps">🔄 Rafraîchir GPS</button>
+                    <button type="submit" class="action-btn" id="submitBtn">✅ Commander</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- SUIVI -->
+        <div class="tracking-section" id="trackingSection">
+            <h2 style="color: cyan; text-align: center;">🚀 SUIVI EN DIRECT</h2>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-size: 2.5rem;">👨‍🚀</span>
+                    <div>
+                        <div style="font-size: 1.5rem; font-weight: 800;">ISSOUF</div>
+                        <div style="color: cyan;">Livreur</div>
+                    </div>
+                </div>
+                <a href="tel:+22507080910">
+                    <button class="action-btn" style="background: cyan;">📞 Appeler</button>
+                </a>
+            </div>
+
+            <div class="map-container" id="mapContainer">
+                <div class="rider-marker" id="riderMarker" style="left: 20%; bottom: 20%;">🛵</div>
+                <div class="client-marker" id="clientMarker" style="left: 70%; bottom: 30%;">📍</div>
+            </div>
+
+            <div style="background: rgba(0,255,255,0.2); padding: 15px; border-radius: 30px; text-align: center;" id="liveDistance">
+                ⚡ Distance: 1.2 km
+            </div>
+        </div>
+    </div>
+
+    <!-- WHATSAPP FIXE -->
+    <div class="whatsapp-fixed">
+        <a href="https://wa.me/2250150291297?text=Bonjour%20Chez%20BAhA%20!" target="_blank" class="whatsapp-btn">
+            <span style="font-size: 1.5rem;">📱</span>
+            <span>WHATSAPP</span>
+        </a>
+    </div>
+
+    <script>
+        // CONFIG
+        const TELEGRAM_TOKEN = '8706580169:AAERDvbunMCtDqFjJN2hQ4g_2vk427FfG0M';
+        const TELEGRAM_CHAT_ID = '8509109328';
+
+        // PRODUITS AVEC VOS IMAGES PERSONNALISÉES (AJOUT DES 4 BOISSONS)
+        const products = [
+            { 
+                name: 'Spaghetti+Rognon 1/2', 
+                price: 1000, 
+                emoji: '🍝',
+                image: 'https://i.ytimg.com/vi/MepIBn0WmfU/sddefault.jpg'
+            },
+            { 
+                name: 'Spaghetti+Foie 1/2', 
+                price: 1000, 
+                emoji: '🍝',
+                image: 'https://i.ytimg.com/vi/KtPEyhMKz88/maxresdefault.jpg'
+            },
+            { 
+                name: 'Lait Caillé', 
+                price: 600, 
+                emoji: '🥛',
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR90X0jd_xHBFFk4PsF21-fi3cX-zrYLqgYPw&s'
+            },
+            { 
+                name: 'Petit Poire', 
+                price: 2000, 
+                emoji: '',
+                image: 'https://hilcona.calcmenuweb.com/picOriginal/P031021124625_1.JPG'
+            },
+            { 
+                name: 'Oeufs (2pcs)', 
+                price: 500, 
+                emoji: '🥚',
+                image: 'https://thumbs.dreamstime.com/b/deux-oeufs-d-isolement-sur-le-blanc-35008063.jpg'
+            },
+            { 
+                name: 'Pain', 
+                price: 200, 
+                emoji: '🥖',
+                image: 'https://www.club-sandwich.net/images/photorecettes/omelette.jpg'
+            },
+            { 
+                name: 'Café au lait+Pain Petite Tasse', 
+                price: 700, 
+                emoji: '☕🥖',
+                image: 'https://img-global.cpcdn.com/recipes/dd0aba728eed30e8/680x781cq80/pain-au-beurre-avec-cafe-au-lait-photo-principale-de-la-recette.jpg'
+            },
+            { 
+                name: 'Café au lait+Pain Grande Tasse', 
+                price: 800, 
+                emoji: '🍱',
+                image: 'https://previews.123rf.com/images/atelieravantgarde/atelieravantgarde1606/atelieravantgarde160600282/59048161-caf%C3%A9-au-lait.jpg'
+            },
+            // NOUVELLES BOISSONS À 300 FCFA
+            { 
+                name: 'Coca‑Cola', 
+                price: 300, 
+                emoji: '🥤',
+                image: 'https://static.wikia.nocookie.net/the-soda/images/d/d8/Coca-Cola_Logo.png/revision/latest/scale-to-width-down/1200?cb=20190817015840'
+            },
+            { 
+                name: 'Pepsi', 
+                price: 300, 
+                emoji: '🥤',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pepsi_2023.svg/1280px-Pepsi_2023.svg.png'
+            },
+            { 
+                name: 'Fanta', 
+                price: 300, 
+                emoji: '🥤',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Fanta_logo_%282009%29.svg/960px-Fanta_logo_%282009%29.svg.png'
+            },
+            { 
+                name: 'Sprite', 
+                price: 300, 
+                emoji: '🥤',
+                image: 'https://static.wikia.nocookie.net/logopedia/images/e/e3/Sprite_logo_2009.svg/revision/latest?cb=20220527125409'
+            }
+        ];
+
+        // ÉTAT
+        let cart = [];
+        let quantities = products.map(() => 1);
+        let clientPosition = { lat: 5.360280, lng: -4.008670, accuracy: 50 };
+        let watchId = null;
+
+        // RENDU MENU AVEC VOS IMAGES
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+
+            products.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                card.innerHTML = `
+                    <img src="${product.image}" class="product-image" alt="${product.name}" 
+                         onerror="this.src='https://via.placeholder.com/300x180/1e2a3a/gold?text=${encodeURIComponent(product.name)}'">
+                    <div class="product-content">
+                        <div class="product-emoji">${product.emoji}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${product.price} F</div>
+                        
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQty(${index}, -1)">−</button>
+                            <span class="qty-display" id="qty-${index}">1</span>
+                            <button class="qty-btn" onclick="event.stopPropagation(); changeQty(${index}, 1)">+</button>
+                        </div>
+                        
+                        <button class="add-btn" onclick="event.stopPropagation(); addToCart(${index})">
+                            AJOUTER
+                        </button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // CHANGER QUANTITÉ
+        window.changeQty = function(index, delta) {
+            quantities[index] = Math.max(1, quantities[index] + delta);
+            document.getElementById(`qty-${index}`).textContent = quantities[index];
+        };
+
+        // AJOUTER AU PANIER
+        window.addToCart = function(index) {
+            const product = products[index];
+            const qty = quantities[index];
+            
+            for (let i = 0; i < qty; i++) {
+                cart.push({ ...product });
+            }
+            
+            updateCart();
+            showNotification(`✅ ${qty} x ${product.name}`);
+        };
+
+        // METTRE À JOUR PANIER
+        function updateCart() {
+            const cartDiv = document.getElementById('cartItems');
+            const countDiv = document.getElementById('cartCount');
+            const totalDiv = document.getElementById('totalDisplay');
+
+            if (cart.length === 0) {
+                cartDiv.innerHTML = '<div style="text-align: center; padding: 20px;">Panier vide</div>';
+                countDiv.textContent = '0 article(s)';
+                totalDiv.textContent = '0 FCFA';
+                return;
+            }
+
+            // Grouper
+            const grouped = {};
+            cart.forEach((item, idx) => {
+                if (!grouped[item.name]) {
+                    grouped[item.name] = { items: [], price: item.price, emoji: item.emoji };
+                }
+                grouped[item.name].items.push(idx);
+            });
+
+            let html = '';
+            let total = 0;
+
+            Object.entries(grouped).forEach(([name, data]) => {
+                const count = data.items.length;
+                const subtotal = data.price * count;
+                total += subtotal;
+
+                html += `
+                    <div class="cart-item">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span>${data.emoji}</span>
+                            <span>${name}</span>
+                            <span style="color: gold;">x${count}</span>
+                            <span style="color: gold;">${subtotal}F</span>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem('${name}')">×</button>
+                    </div>
+                `;
+            });
+
+            cartDiv.innerHTML = html;
+            countDiv.textContent = `${cart.length} article(s)`;
+            totalDiv.textContent = total + ' FCFA';
+        }
+
+        // SUPPRIMER
+        window.removeItem = function(name) {
+            const index = cart.findIndex(item => item.name === name);
+            if (index !== -1) {
+                cart.splice(index, 1);
+                updateCart();
+            }
+        };
+
+        // NOTIFICATION
+        function showNotification(msg) {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = msg;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 2000);
+        }
+
+        // COMPTE À REBOURS
+        function updateCountdown() {
+            const now = new Date();
+            const closing = new Date();
+            closing.setHours(23, 50, 0);
+            if (now > closing) closing.setDate(closing.getDate() + 1);
+            
+            const diff = closing - now;
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // GPS OPTIMISÉ
+        function startGPS() {
+            if (!navigator.geolocation) {
+                document.getElementById('gpsStatus').textContent = '❌ NON DISPONIBLE';
+                return;
+            }
+
+            document.getElementById('gpsStatus').textContent = '🔄 RECHERCHE...';
+
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            };
+
+            watchId = navigator.geolocation.watchPosition(
+                (position) => {
+                    clientPosition = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    };
+
+                    document.getElementById('gpsCoords').textContent = 
+                        `${position.coords.latitude.toFixed(6)}°, ${position.coords.longitude.toFixed(6)}°`;
+                    document.getElementById('gpsStatus').textContent = '✅ VERROUILLÉ';
+                    document.getElementById('gpsStatus').style.background = '#00ff00';
+                    
+                    let acc = position.coords.accuracy;
+                    let accText = acc < 10 ? '🎯 Exceptionnelle' : 
+                                 acc < 30 ? '✅ Bonne' : '⚠️ Moyenne';
+                    document.getElementById('gpsAccuracy').textContent = 
+                        `${accText} précision: ±${acc.toFixed(1)}m`;
+                },
+                (error) => {
+                    console.log('GPS Error:', error);
+                    document.getElementById('gpsCoords').textContent = '5.360280°, -4.008670° (Angré)';
+                    document.getElementById('gpsStatus').textContent = '⚠️ APPROXIMATIF';
+                    document.getElementById('gpsStatus').style.background = '#FFA500';
+                    document.getElementById('gpsAccuracy').textContent = '📍 Position par défaut';
+                },
+                options
+            );
+        }
+
+        startGPS();
+
+        document.getElementById('refreshGps').addEventListener('click', () => {
+            if (watchId) navigator.geolocation.clearWatch(watchId);
+            startGPS();
+        });
+
+        // ENVOI TELEGRAM
+        async function sendToTelegram(orderData) {
+            const grouped = {};
+            orderData.items.forEach(item => {
+                grouped[item.name] = grouped[item.name] || { count: 0, price: item.price, emoji: item.emoji };
+                grouped[item.name].count++;
+            });
+
+            let itemsList = '';
+            Object.entries(grouped).forEach(([name, data]) => {
+                itemsList += `${data.emoji} ${name} x${data.count} = ${data.price * data.count}F\n`;
+            });
+
+            const message = `🍽️ *NOUVELLE COMMANDE*\n\n👤 *${orderData.fullName}*\n📞 ${orderData.phone}\n📍 ${orderData.address}\n🛰️ ${orderData.lat}, ${orderData.lng} (±${orderData.accuracy}m)\n\n📦 *${orderData.items.length} articles:*\n${itemsList}\n💰 *TOTAL: ${orderData.total} FCFA*`;
+
+            try {
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // SOUMISSION
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            if (!fullName || !phone || !address) {
+                alert('Remplissez tous les champs');
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert('Panier vide');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            const orderData = {
+                fullName, phone, address,
+                lat: clientPosition.lat,
+                lng: clientPosition.lng,
+                accuracy: clientPosition.accuracy,
+                items: cart,
+                total
+            };
+
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = '📤 ENVOI...';
+            
+            const sent = await sendToTelegram(orderData);
+            
+            if (sent) {
+                btn.textContent = '✅ COMMANDÉ';
+                showNotification('✅ Commande envoyée !');
+                
+                document.getElementById('trackingSection').style.display = 'block';
+                
+                let distance = 1.8;
+                const interval = setInterval(() => {
+                    distance = Math.max(0, distance - 0.2);
+                    document.getElementById('riderMarker').style.left = `${20 + (1.8-distance)*35}%`;
+                    document.getElementById('liveDistance').textContent = 
+                        distance > 0.2 ? `⚡ ${Math.round(distance*1000)} m` : '✅ Arrivé';
+                    
+                    if (distance <= 0) clearInterval(interval);
+                }, 3000);
+                
+                cart = [];
+                updateCart();
+            } else {
+                btn.textContent = '❌ ERREUR';
+            }
+        });
+
+        // INIT
+        renderMenu();
+        updateCart();
+    </script>
+</body>
+</html>
